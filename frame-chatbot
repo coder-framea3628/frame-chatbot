@@ -1,0 +1,76 @@
+// frame-chatbot.js
+
+const b=document.getElementById('bd'),p="https://framerusercontent.com/images/uvgx4LpdArstEFjK7yhfEcgIEo.png";
+
+// Cria e exibe mensagens
+function am(t,btn=[]){
+  let m=document.createElement('div');m.className='msg';
+  let i=document.createElement('img');i.src=p;
+  let bb=document.createElement('div');bb.className='bb';
+  // Substitui link frameag.com/report por link clicável
+  bb.innerHTML=t.replace(/(frameag\.com\/report)/g,'<a href="https://$1" target="_blank">$1</a>')+'<span class="bt">agora</span>';
+  if(btn.length){
+    let w=document.createElement('div');w.className='btns';
+    btn.forEach(o=>{
+      let b2=document.createElement('div');b2.className='btn'+(o.p?' p':'');
+      b2.innerText=o.l;b2.onclick=o.a;w.appendChild(b2);
+    });
+    bb.appendChild(w);
+  }
+  m.appendChild(i);m.appendChild(bb);b.appendChild(m);b.scrollTop=b.scrollHeight;
+}
+
+// Menu principal
+function menu(){b.innerHTML='<div class="l">Chat ao vivo</div>';
+  am("Selecione sua categoria:",[
+    {l:"Contratante / Assinante",p:1,a:()=>cm()},
+    {l:"Criadora / Anunciante",a:()=>cr()}
+  ]);
+}
+
+// Opções contratante
+function cm(){b.innerHTML='<div class="l">Chat ao vivo</div>';
+  am("Escolha uma opção:",[
+    {l:"Quero contratar uma modelo",p:1,a:()=>ct()},
+    {l:"Sobre segurança",a:()=>window.open('https://frameag.com/blog/seguranca','_blank')},
+    {l:"Reportar modelo anonimamente",a:()=>am("Prezamos pela segurança com três etapas de verificação. Caso encontre irregularidades, acesse frameag.com/report e denuncie anonimamente.")},
+    {l:"Falar com humano",a:()=>fh()},
+    {l:"Voltar",a:()=>menu()}
+  ]);
+}
+
+// Opções criadora
+function cr(){b.innerHTML='<div class="l">Chat ao vivo</div>';
+  am('Como você é criadora/anunciante, acesse sua conta em <a href="https://frameag.com/login" target="_blank">frameag.com/login</a> e clique em "Atendimento - Frame".');
+}
+
+// Confirmação de idade e atendimento
+function ct(){b.innerHTML='<div class="l">Chat ao vivo</div>';
+  am("Você possui 18 anos ou mais?",[
+    {l:"Sim",p:1,a:()=>am("Para contratar, fale com nosso time:",[
+      {l:"Ir para atendimento 24h",p:1,a:()=>window.open('https://t.me/suporteframebot?start=catalogo-site','_blank')}
+    ])},
+    {l:"Não",a:()=>am("A Frame deve ser usada exclusivamente por maiores de 18 anos.")}
+  ]);
+}
+
+// Overlay dos três pontinhos
+function om(){document.getElementById('ov').style.display='flex';}
+function d(){document.getElementById('ov').style.display='none';}
+function ec(){location.href="https://frameag.com/models";}
+
+// Atendimento humano
+function fh(){am("Claro! Vou te direcionar agora para um atendente humano do time da Frame!",[
+  {l:"Ir para atendimento",p:1,a:()=>window.open('https://t.me/suporteframebot?start=chatbot-site','_blank')}
+]);}
+
+// Inicialização
+window.onload=()=>{
+  b.innerHTML='<div class="l">Chat ao vivo</div>';
+  am("Olá, bem-vindo ao atendimento virtual da Frame.");
+  setTimeout(()=>am("Selecione seu idioma:",[
+    {l:"Português",p:1,a:()=>menu()},
+    {l:"English",a:()=>menu()},
+    {l:"Español",a:()=>menu()}
+  ]),600);
+}
